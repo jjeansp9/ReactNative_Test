@@ -3,6 +3,9 @@
 
 // react-native-image-picker Library 추가하기
 // install : npm install react-native-image-picker
+
+// ######################################################################
+
 import React, {Component} from 'react'
 import {View,Text,Image,Button,StyleSheet} from 'react-native'
 
