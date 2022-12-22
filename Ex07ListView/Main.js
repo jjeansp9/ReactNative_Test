@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
-import {View,Text,Button,StyleSheet,FlatList} from 'react-native'
+import {View,Text,Button,StyleSheet,FlatList, Image, TouchableOpacity} from 'react-native'
+import ItemComponent from './ItemComponent'
 
 export default class Main extends Component{
 
@@ -8,6 +9,13 @@ export default class Main extends Component{
     // 1. 먼저 단순한 연습을 위해 문자열만으로 있는 배열 데이터들(대량의 데이터들)
     state={
         datas:["aaa","bbb","ccc","ddd"],
+        datas2:[
+            {name:"sam", message:"Hello World", img:require('./image/img_01.jpg')},
+            {name:"robin", message:"bonjour le monde", img:require('./image/img_02.jpg')},
+            {name:"hong", message:"안녕 세상아", img:require('./image/img03.jpg')},
+            {name:"kim", message:"salut", img:{uri:"https://cdn.pixabay.com/photo/2022/12/10/11/05/snow-7646952__340.jpg"}},
+            {name:"park", message:"nice to meet you", img:{uri:"https://cdn.pixabay.com/photo/2022/12/13/20/36/carousel-7654138__340.jpg"}},
+        ],
     }
 
     render(){
@@ -45,6 +53,29 @@ export default class Main extends Component{
 
 
                     {/* 3. 조금더 Item 하나의 모양이 복잡한 것 */}
+                    <FlatList
+                        data={this.state.datas2}
+                        renderItem={({item,index})=>{ // () 안에 {}를 작성하여 구조분해할당
+                            return (
+                                <TouchableOpacity style={style.item} onPress={()=>{
+                                    alert(item.name)
+                                }}>
+                                    <Image source={item.img} style={style.itemImg}></Image>
+                                    <View>
+                                        <Text style={style.itemName}>{item.name}</Text>
+                                        <Text style={style.itemMessage}>{item.message}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            )
+                        }}></FlatList>
+                    
+                    {/* 4. 아이템하나 컴포넌트를 별도의 함수형 컴포넌트로 제작 */}
+                    <FlatList
+                    style={{marginTop:24}}
+                        data={this.state.datas2}
+                        renderItem={(item, index)=>{
+                            return <ItemComponent item={item} index={index}></ItemComponent>
+                        }}></FlatList>
             </View>
         )
     }
@@ -53,4 +84,27 @@ export default class Main extends Component{
 const style= StyleSheet.create({
     root:{flex:1, padding:16},
     title:{color:'black',fontWeight:'bold', fontSize:24, alignSelf:'center',},
+    item:{
+        flexDirection:'row',
+        borderWidth: 1,
+        borderRadius: 4,
+        padding: 8,
+        marginBottom: 10,
+    },
+    itemImg:{
+        width:160,
+        height:100,
+        resizeMode:'cover',
+        marginRight:8,
+    },
+    itemName:{
+        fontSize:24,
+        color:'black',
+        fontWeight:'bold',
+
+    },
+    itemMessage:{
+        fontSize:16,
+        fontStyle:'italic',
+    }
 })
